@@ -18,11 +18,8 @@ Um quadro Kanban moderno e responsivo construído com Next.js 13, TypeScript e T
 
 ### Backend
 - **Spring Boot**: Framework Java para desenvolvimento de APIs REST
-- **Spring Data JPA**: Persistência de dados com JPA/Hibernate
-- **PostgreSQL**: Banco de dados relacional
-- **Lombok**: Redução de código boilerplate em Java
-- **Spring Security**: Autenticação e autorização
-- **JWT**: Autenticação baseada em tokens
+- **Spring Data MongoDB**: Persistência de dados com MongoDB
+- **MongoDB**: Banco de dados NoSQL para armazenamento flexível e escalável
 
 ## ✨ Funcionalidades
 
@@ -32,7 +29,6 @@ Um quadro Kanban moderno e responsivo construído com Next.js 13, TypeScript e T
 - 📝 Criação e edição de tarefas
 - 📋 Gerenciamento de colunas
 - 🔄 Atualização em tempo real
-- 🔒 Autenticação de usuários
 - 💾 Persistência de dados
 - 🎨 Design system consistente
 - ♿ Acessibilidade
