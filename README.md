@@ -1,4 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kanban Board
+
+Um quadro Kanban moderno e responsivo construído com Next.js 13, TypeScript e Tailwind CSS.
+
+## 🚀 Tecnologias Utilizadas
+
+### Frontend
+- **Next.js 13**: Framework React com suporte a Server Components e App Router
+- **TypeScript**: Tipagem estática para maior segurança e melhor desenvolvimento
+- **Tailwind CSS**: Framework CSS utilitário para estilização rápida e consistente
+- **React Query**: Gerenciamento de estado e cache para dados do servidor
+- **React Hook Form**: Gerenciamento de formulários com validação
+- **Zod**: Validação de esquemas e tipos em tempo de execução
+- **React Beautiful DnD**: Biblioteca para implementação de drag and drop
+- **Headless UI**: Componentes acessíveis e sem estilo para UI
+- **Heroicons**: Ícones modernos e consistentes
+- **React Hot Toast**: Notificações toast elegantes e customizáveis
+
+### Backend
+- **Spring Boot**: Framework Java para desenvolvimento de APIs REST
+- **Spring Data JPA**: Persistência de dados com JPA/Hibernate
+- **PostgreSQL**: Banco de dados relacional
+- **Lombok**: Redução de código boilerplate em Java
+- **Spring Security**: Autenticação e autorização
+- **JWT**: Autenticação baseada em tokens
+
+## ✨ Funcionalidades
+
+- 📱 Interface responsiva e moderna
+- 🌓 Suporte a tema claro e escuro
+- 🎯 Drag and drop de tarefas entre colunas
+- 📝 Criação e edição de tarefas
+- 📋 Gerenciamento de colunas
+- 🔄 Atualização em tempo real
+- 🔒 Autenticação de usuários
+- 💾 Persistência de dados
+- 🎨 Design system consistente
+- ♿ Acessibilidade
+
+## 🛠️ Configuração do Ambiente
+
+### Frontend
+```bash
+# Instalar dependências
+npm install
+
+# Iniciar servidor de desenvolvimento
+npm run dev
+
+# Construir para produção
+npm run build
+
+# Iniciar versão de produção
+npm start
+```
+
+### Backend
+```bash
+# Compilar o projeto
+./mvnw clean install
+
+# Iniciar o servidor
+./mvnw spring-boot:run
+```
+
+## 📦 Estrutura do Projeto
+
+```
+kanbam-front/
+├── src/
+│   ├── app/              # Rotas e páginas
+│   ├── components/       # Componentes React
+│   ├── contexts/         # Contextos React
+│   ├── services/         # Serviços e APIs
+│   ├── types/           # Definições de tipos
+│   └── utils/           # Funções utilitárias
+├── public/              # Arquivos estáticos
+└── tailwind.config.js   # Configuração do Tailwind
+```
+
+## 🔧 Variáveis de Ambiente
+
+Crie um arquivo `.env.local` na raiz do projeto:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+
+## 🤝 Contribuindo
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👥 Autores
+
+- Alan Oliveira - [GitHub](https://github.com/alan-oliveira)
+
+---
+
+Desenvolvido com ❤️ por Alan Oliveira
 
 ## Getting Started
 
