@@ -5,7 +5,7 @@ Um quadro Kanban moderno e responsivo construído com Next.js 13, TypeScript e T
 ## 🚀 Tecnologias Utilizadas
 
 ### Frontend
-- **Next.js 13**: Framework React com suporte a Server Components e App Router
+- **Next.js 14**: Framework React com suporte a Server Components e App Router
 - **TypeScript**: Tipagem estática para maior segurança e melhor desenvolvimento
 - **Tailwind CSS**: Framework CSS utilitário para estilização rápida e consistente
 - **React Query**: Gerenciamento de estado e cache para dados do servidor
