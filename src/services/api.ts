@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { Column, Task, CreateColumnDTO, CreateTaskDTO, UpdateTaskDTO } from '@/types/kanban';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_URL) {
+  throw new Error('A variável de ambiente NEXT_PUBLIC_API_URL não está definida');
+}
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api',
+  baseURL: `${API_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

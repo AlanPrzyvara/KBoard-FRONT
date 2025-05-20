@@ -1,7 +1,10 @@
+'use client';
+
 import { Dialog } from '@headlessui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Column } from '@/types/kanban';
 
 const columnSchema = z.object({
@@ -23,6 +26,7 @@ export default function ColumnModal({
   onSubmit,
   column,
 }: ColumnModalProps) {
+  const { theme } = useTheme();
   const {
     register,
     handleSubmit,
@@ -52,8 +56,8 @@ export default function ColumnModal({
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-sm rounded bg-white p-6">
-          <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 mb-4">
+        <Dialog.Panel className="mx-auto max-w-sm rounded bg-white dark:bg-dark-card p-6 shadow-lg">
+          <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 dark:text-dark-text mb-4">
             {column ? 'Editar Coluna' : 'Nova Coluna'}
           </Dialog.Title>
 
@@ -61,7 +65,7 @@ export default function ColumnModal({
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary"
               >
                 Nome da Coluna
               </label>
@@ -69,10 +73,10 @@ export default function ColumnModal({
                 type="text"
                 id="name"
                 {...register('name')}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {errors.name && (
-                <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-500">{errors.name.message}</p>
               )}
             </div>
 
@@ -80,7 +84,7 @@ export default function ColumnModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="rounded-md border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-card px-4 py-2 text-sm font-medium text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-bg"
               >
                 Cancelar
               </button>
