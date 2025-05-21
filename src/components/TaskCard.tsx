@@ -48,7 +48,7 @@ export default function TaskCard({ task, index, columns, onMoveTask, onDeleteTas
                   <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-dark-card shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                     <div className="py-1">
                       <Menu.Item>
-                        {({ active }) => (
+                        {({  }) => (
                           <div className="px-3 py-1 text-sm text-gray-700 dark:text-dark-text-secondary">
                             Mover para:
                           </div>

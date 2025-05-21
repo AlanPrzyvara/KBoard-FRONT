@@ -26,7 +26,7 @@ export default function ColumnModal({
   onSubmit,
   column,
 }: ColumnModalProps) {
-  const { theme } = useTheme();
+  const {  } = useTheme();
   const {
     register,
     handleSubmit,

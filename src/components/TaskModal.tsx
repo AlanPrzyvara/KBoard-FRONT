@@ -27,7 +27,7 @@ export default function TaskModal({
   onSubmit,
   task,
 }: TaskModalProps) {
-  const { theme } = useTheme();
+  const {  } = useTheme();
   const {
     register,
     handleSubmit,
