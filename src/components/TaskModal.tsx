@@ -47,7 +47,8 @@ export default function TaskModal({
       : undefined,
   });
 
-  const description = watch('description');
+  const title = watch('title') || '';
+  const description = watch('description') || '';
 
   const handleFormSubmit = (data: TaskFormData) => {
     onSubmit(data);
@@ -77,13 +78,20 @@ export default function TaskModal({
               >
                 Título
               </label>
-              <input
-                type="text"
-                id="title"
-                placeholder="Digite o título da tarefa"
-                {...register('title')}
-                className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  id="title"
+                  placeholder="Digite o título da tarefa"
+                  {...register('title')}
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text shadow-sm p-3 bg-gray-50 dark:bg-dark-bg"
+                  maxLength={100}
+                  required
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 dark:text-dark-text-secondary">
+                  {title.length}/100
+                </div>
+              </div>
               {errors.title && (
                 <p className="mt-1 text-sm text-red-600 dark:text-red-500">{errors.title.message}</p>
               )}
@@ -111,13 +119,20 @@ export default function TaskModal({
                   <ReactMarkdown>{description || 'Nenhuma descrição'}</ReactMarkdown>
                 </div>
               ) : (
-                <textarea
-                  id="description"
-                  placeholder="Digite a descrição da tarefa (suporta markdown)"
-                  {...register('description')}
-                  rows={8}
-                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3"
-                />
+                <div className="relative">
+                  <textarea
+                    id="description"
+                    placeholder="Digite a descrição da tarefa (suporta markdown)"
+                    {...register('description')}
+                    rows={8}
+                    className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text shadow-sm p-3 bg-gray-50 dark:bg-dark-bg min-h-[200px]"
+                    maxLength={1000}
+                    required
+                  />
+                  <div className="absolute right-3 bottom-3 text-sm text-gray-500 dark:text-dark-text-secondary">
+                    {description.length}/1000
+                  </div>
+                </div>
               )}
               {errors.description && (
                 <p className="mt-1 text-sm text-red-600 dark:text-red-500">

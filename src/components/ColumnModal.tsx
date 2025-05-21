@@ -1,50 +1,25 @@
 'use client';
 
 import { Dialog } from '@headlessui/react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useTheme } from '@/contexts/ThemeContext';
 import { Column } from '@/types/kanban';
-
-const columnSchema = z.object({
-  name: z.string().min(1, 'O nome da coluna é obrigatório'),
-});
-
-type ColumnFormData = z.infer<typeof columnSchema>;
+import { useState } from 'react';
 
 interface ColumnModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: ColumnFormData) => void;
+  onSubmit: (data: { name: string }) => void;
   column?: Column;
 }
 
-export default function ColumnModal({
-  isOpen,
-  onClose,
-  onSubmit,
-  column,
-}: ColumnModalProps) {
-  const {  } = useTheme();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<ColumnFormData>({
-    resolver: zodResolver(columnSchema),
-    defaultValues: column
-      ? {
-          name: column.name,
-        }
-      : undefined,
-  });
+export default function ColumnModal({ isOpen, onClose, onSubmit, column }: ColumnModalProps) {
+  const [name, setName] = useState(column?.name || '');
 
-  const handleFormSubmit = (data: ColumnFormData) => {
-    onSubmit(data);
-    reset();
-    onClose();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit({ name });
+    if (!column) {
+      setName('');
+    }
   };
 
   return (
@@ -61,24 +36,29 @@ export default function ColumnModal({
             {column ? 'Editar Coluna' : 'Nova Coluna'}
           </Dialog.Title>
 
-          <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700 dark:text-dark-text-secondary mb-2"
               >
-                Nome da Coluna
+                Nome
               </label>
-              <input
-                type="text"
-                id="name"
-                placeholder="Digite o nome da coluna"
-                {...register('name')}
-                className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text shadow-sm focus:border-blue-500 focus:ring-blue-500 p-3"
-              />
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-500">{errors.name.message}</p>
-              )}
+              <div className="relative">
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-dark-border dark:bg-dark-bg dark:text-dark-text shadow-sm p-3 bg-gray-50 dark:bg-dark-bg"
+                  placeholder="Digite o nome da coluna"
+                  maxLength={30}
+                  required
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 dark:text-dark-text-secondary">
+                  {name.length}/30
+                </div>
+              </div>
             </div>
 
             <div className="mt-8 flex justify-end space-x-4">
