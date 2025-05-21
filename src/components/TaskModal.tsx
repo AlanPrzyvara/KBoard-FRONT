@@ -29,7 +29,7 @@ export default function TaskModal({
   onSubmit,
   task,
 }: TaskModalProps) {
-  const { theme } = useTheme();
+  const { } = useTheme();
   const [previewMode, setPreviewMode] = useState(false);
   const {
     register,

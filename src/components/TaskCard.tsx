@@ -3,7 +3,7 @@
 import { Draggable } from 'react-beautiful-dnd';
 import { Task, Column } from '@/types/kanban';
 import { Menu } from '@headlessui/react';
-import { ChevronDownIcon, TrashIcon, PencilIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
+import { TrashIcon, PencilIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
 import TaskViewModal from './TaskViewModal';
