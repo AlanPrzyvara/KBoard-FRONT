@@ -29,12 +29,33 @@ export default function KanbanBoard() {
   const moveTaskMutation = useMutation({
     mutationFn: ({ taskId, columnId }: { taskId: string; columnId: string }) =>
       moveTask(taskId, columnId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      toast.success('Tarefa movida com sucesso!');
+    onMutate: async ({ taskId, columnId }) => {
+      // Cancelar queries em andamento
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+
+      // Salvar o estado anterior
+      const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
+
+      // Atualizar o estado otimisticamente
+      queryClient.setQueryData<Task[]>(['tasks'], (old) => {
+        if (!old) return [];
+        return old.map((task) =>
+          task.id === taskId ? { ...task, columnId } : task
+        );
+      });
+
+      return { previousTasks };
     },
-    onError: () => {
+    onError: (err, newTask, context) => {
+      // Em caso de erro, reverter para o estado anterior
+      if (context?.previousTasks) {
+        queryClient.setQueryData(['tasks'], context.previousTasks);
+      }
       toast.error('Erro ao mover tarefa');
+    },
+    onSettled: () => {
+      // Recarregar os dados após a conclusão
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
   });
 
