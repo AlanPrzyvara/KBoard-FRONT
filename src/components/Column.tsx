@@ -5,10 +5,13 @@ import { Column as ColumnType, Task } from '@/types/kanban';
 import TaskCard from './TaskCard';
 import { useState } from 'react';
 import TaskModal from './TaskModal';
-import { TrashIcon } from '@heroicons/react/20/solid';
+import { TrashIcon, PencilIcon } from '@heroicons/react/20/solid';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteColumn } from '@/services/api';
+import { deleteColumn, updateColumn } from '@/services/api';
 import toast from 'react-hot-toast';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import ColumnModal from './ColumnModal';
+import { CreateColumnDTO } from '@/types/kanban';
 
 interface ColumnProps {
   column: ColumnType;
@@ -17,10 +20,12 @@ interface ColumnProps {
   onAddTask: (data: { title: string; description: string }) => void;
   onMoveTask: (taskId: string, columnId: string) => void;
   onDeleteTask: (taskId: string) => void;
+  onEditTask: (taskId: string, data: { title: string; description: string }) => void;
 }
 
-export default function Column({ column, tasks, columns, onAddTask, onMoveTask, onDeleteTask }: ColumnProps) {
+export default function Column({ column, tasks, columns, onAddTask, onMoveTask, onDeleteTask, onEditTask }: ColumnProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const deleteColumnMutation = useMutation({
@@ -35,10 +40,29 @@ export default function Column({ column, tasks, columns, onAddTask, onMoveTask, 
     },
   });
 
+  const updateColumnMutation = useMutation({
+    mutationFn: (data: CreateColumnDTO) => updateColumn(column.id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['columns'] });
+      toast.success('Coluna atualizada com sucesso!');
+      setIsEditModalOpen(false);
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar coluna');
+    },
+  });
+
   const handleDeleteColumn = () => {
     if (window.confirm(`Tem certeza que deseja excluir a coluna "${column.name}" e todas as suas tarefas?`)) {
       deleteColumnMutation.mutate(column.id);
     }
+  };
+
+  const handleEditColumn = (data: { name: string }) => {
+    updateColumnMutation.mutate({
+      name: data.name,
+      order: column.order
+    });
   };
 
   return (
@@ -47,6 +71,13 @@ export default function Column({ column, tasks, columns, onAddTask, onMoveTask, 
         <div className="flex items-center justify-between">
           <h2 className="font-semibold text-gray-700 dark:text-dark-text">{column.name}</h2>
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsEditModalOpen(true)}
+              className="p-1 text-gray-500 dark:text-dark-text-secondary hover:text-blue-600 dark:hover:text-blue-500 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors"
+              title="Editar coluna"
+            >
+              <PencilIcon className="h-5 w-5" />
+            </button>
             <button
               onClick={handleDeleteColumn}
               className="p-1 text-gray-500 dark:text-dark-text-secondary hover:text-red-600 dark:hover:text-red-500 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors"
@@ -59,18 +90,7 @@ export default function Column({ column, tasks, columns, onAddTask, onMoveTask, 
               className="p-1 text-gray-500 dark:text-dark-text-secondary hover:text-gray-700 dark:hover:text-dark-text rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors"
               title="Adicionar tarefa"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <PlusIcon className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -92,6 +112,7 @@ export default function Column({ column, tasks, columns, onAddTask, onMoveTask, 
                   columns={columns}
                   onMoveTask={onMoveTask}
                   onDeleteTask={onDeleteTask}
+                  onEditTask={onEditTask}
                 />
               ))}
               {provided.placeholder}
@@ -107,6 +128,13 @@ export default function Column({ column, tasks, columns, onAddTask, onMoveTask, 
           onAddTask(data);
           setIsModalOpen(false);
         }}
+      />
+
+      <ColumnModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSubmit={handleEditColumn}
+        column={column}
       />
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getColumns, getTasks, moveTask, createTask, createColumn, deleteTask } from '@/services/api';
+import { getColumns, getTasks, moveTask, createTask, createColumn, deleteTask, updateTask } from '@/services/api';
 import { Column as ColumnType, Task } from '@/types/kanban';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -129,6 +129,25 @@ export default function KanbanBoard() {
     }
   };
 
+  const handleEditTask = async (taskId: string, data: { title: string; description: string }) => {
+    try {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      const updatedTask = {
+        ...task,
+        title: data.title,
+        description: data.description
+      };
+
+      await updateTask(taskId, updatedTask);
+      queryClient.setQueryData(['tasks'], tasks.map(t => t.id === taskId ? updatedTask : t));
+    } catch (error) {
+      console.error('Erro ao editar tarefa:', error);
+      alert('Erro ao editar tarefa. Por favor, tente novamente.');
+    }
+  };
+
   if (isLoadingColumns || isLoadingTasks) {
     return (
       <div className="flex items-center justify-center h-screen bg-white dark:bg-dark-bg">
@@ -190,6 +209,7 @@ export default function KanbanBoard() {
                 moveTaskMutation.mutate({ taskId, columnId });
               }}
               onDeleteTask={handleDeleteTask}
+              onEditTask={handleEditTask}
             />
           ))}
         </div>
